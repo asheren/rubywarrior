@@ -1,15 +1,22 @@
 class Player
+  def initialize
+    @health = 20
+  end
+
   def play_turn(warrior)
-    warrior.feel
-    if warrior.feel.empty?
-    	if warrior.health < 14
-    	  warrior.rest!
-    	else
-    	  warrior.walk!
-    	end
+    if warrior.feel.enemy?
+       warrior.attack!
     else
-    	warrior.feel.enemy?
-    	warrior.attack!
+      if warrior.health < 20 && !taking_damage?(warrior)
+        warrior.rest!
+      else
+        warrior.walk!
+      end
     end
+    	@health = warrior.health
+  end
+
+  def taking_damage?(warrior)
+    warrior.health < @health
   end
 end
